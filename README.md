@@ -28,7 +28,19 @@ Please proceed to the [RELEASES](https://github.com/Nfloc/spectrumSense/releases
 
 ## 📦 Install
 ### All Dependencies
+#### Hardware
+- ESP32 Development Board
+- Adafruit AS7341 10-Channel light/Color Sensor Breakout
 
+| AS7341 Pin | Connects to ESP32 Pin | Function        |
+| ---------- | --------------------- | --------------- |
+| **VIN**    | **3V3**               | Power (3.3V)    |
+| **GND**    | **GND**               | Ground          |
+| **SCL**    | **GPIO22**            | I2C Clock (SCL) |
+| **SDA**    | **GPIO21**            | I2C Data (SDA)  |
+*if two available grounds choose the one in the same row with all the other connections*
+
+#### Libraries
 - ArgyllCMS
 - pyside6
 - pyserial
@@ -44,6 +56,8 @@ To install all dependencies navigate to
 and run install_all.bat
 
 To run the program please run ***spectrumSense.bat***
+
+> ‼️Make sure you upload the provided sketch to your ESP32 board before attempting to use. This can be done through ArduinoIDE and alike software. 
 
 ## 🤝 Sponsors
 
