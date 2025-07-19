@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./.docs/logo.svg" width="200"/>
+  <img src="./docs/logo.svg" width="200"/>
   <h1>spectrumSense</h1>
   <p>Generate ICC profiles based off of specrtometer readings.</p>
   
