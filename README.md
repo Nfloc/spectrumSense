@@ -8,9 +8,9 @@
 
 ## 📙 API Documentation
 
-<h1>⚠️ You are reading the docs for the <a href="https://github.com/Nfloc/SpectrumSense/tree/main">next</a> branch ⚠️</h1>
+<h1>⚠️ You are reading the docs for the <a href="https://github.com/Nfloc/SpectrumSense/tree/main">main</a> branch ⚠️</h1>
 
-Please proceed to the [Getting Started Guide]() for the **stable** release of SpectrumSense.
+Please proceed to the [RELEASES](https://github.com/Nfloc/spectrumSense/releases) for the **stable** release of SpectrumSense.
 
 ---
 
@@ -39,16 +39,11 @@ Please proceed to the [Getting Started Guide]() for the **stable** release of Sp
 - datetime
 - Pillow
 
-Install Python Dependencies in windows powershell
-```bash
-# install_dependencies.ps1
-powershell -ExecutionPolicy Bypass
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-pip install --upgrade pip
-pip install numpy scipy matplotlib Pillow pyserial PySide6 colour-science `
-  adafruit-blinka adafruit-circuitpython-as7341 esptool adafruit-ampy
-```
+To install all dependencies navigate to
+*spectrumSense -> scripts -> install_all.bat*
+and run install_all.bat
+
+To run the program please run ***spectrumSense.bat***
 
 ## 🤝 Sponsors
 
