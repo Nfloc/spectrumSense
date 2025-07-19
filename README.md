@@ -38,6 +38,7 @@ Please proceed to the [RELEASES](https://github.com/Nfloc/spectrumSense/releases
 | **GND**    | **GND**               | Ground          |
 | **SCL**    | **GPIO22**            | I2C Clock (SCL) |
 | **SDA**    | **GPIO21**            | I2C Data (SDA)  |
+
 *if two available grounds choose the one in the same row with all the other connections*
 
 #### Libraries
