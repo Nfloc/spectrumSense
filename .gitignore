@@ -3,3 +3,9 @@ __pycache__/
 *.pyc
 *.log
 argyll/
+data/monitor_patch_data.ti3
+data/monitor_raw_data.json
+models/conversion_matrix.json
+models/XYZ_baseline.json
+models/XYZ_monitor.json
+models/generated_profile.icc

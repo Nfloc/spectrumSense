@@ -11,4 +11,10 @@ call venv\Scripts\activate.bat
 :: Run the GUI application with pythonw (window mode) instead of python
 start "" pythonw app\guiMain.py
 
+if errorlevel 1 (
+    echo 🔴 Error running guiMain.py
+    pause
+    exit /b 2
+)
+
 :: Note: We don't need to deactivate since the start command runs in a separate process

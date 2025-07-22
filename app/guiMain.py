@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from app.config import *
+from config import *
+from serial_utils import find_colorimeter_port
 import threading, time, subprocess, sys, json
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QDialog
 from PySide6.QtCore    import QTimer, Qt
@@ -17,7 +18,7 @@ class MainWindow(QWidget):
         self.setGeometry(screen.width()/5,screen.height()/5,400,200)
         self.overlay=None
         self.setWindowFlag(Qt.WindowStaysOnTopHint, True)
-
+        self.loading_dots = 0
 
         # Widgets
         self.status_label = QLabel("Idle")
@@ -73,11 +74,17 @@ class MainWindow(QWidget):
 
     def start_reading(self):
         try:
-            # Pass an output filename here:
-            self.reader = SerialReader(port="COM3",
-                                       baud=115200,
-                                       timeout=1,
-                                       output_file=COLOR_DATA)
+            port = find_colorimeter_port()
+            if not port:
+                self.status_label.setText("❌ Could not find colorimeter (ESP32).")
+                self.start_btn.setEnabled(True)
+                return
+
+            self.reader = SerialReader(
+                port=port,
+                baud=115200,
+                timeout=1,
+                output_file=COLOR_DATA)
             self.reader.start()
             self.status_label.setText("Reading data…")
             self.calibrateBase_btn.setEnabled(True)
@@ -232,10 +239,40 @@ class MainWindow(QWidget):
         if self.reader:
             self.reader.close()
 
-    def on_createProfile_clicked():
-        subprocess.run(["python", MATRIX_PATH])
-        
+    def on_createProfile_clicked(self):
+        """Generate the ICC profile and color matrix."""
+        if file_exists(MONITOR_RAW_JSON) and file_exists(BASELINE_RAW_JSON):
+            self.loading_dots = 0
+            self.status_label.setText("Generating ICC profile")
+            self.createProfile_btn.setEnabled(False)
+            # Run the Matrix script and store the process
+            self.matrix_process = subprocess.Popen(["python", MATRIX_PATH])
+            
+            # Create a timer to check the process status
+            self.check_timer = QTimer(self)  # Add parent to prevent garbage collection
+            self.check_timer.timeout.connect(self.check_matrix_process)
+            self.check_timer.start(500)  # Check every 500ms for smoother animation
+        else:
+            self.status_label.setText("❌ Missing calibration data files. Please calibrate first.")
 
+    def check_matrix_process(self):
+        """Check if the Matrix process is still running"""
+        if hasattr(self, 'matrix_process'):
+            # Update loading animation
+            self.loading_dots = (self.loading_dots + 1) % 4
+            dots = "." * self.loading_dots
+            self.status_label.setText(f"Generating ICC profile{dots}")
+            
+            return_code = self.matrix_process.poll()
+            if return_code is not None:  # Process has finished
+                self.check_timer.stop()
+                if return_code == 0:
+                    self.status_label.setText("ICC profile generated successfully ✔️")
+                else:
+                    self.status_label.setText("❌ Error generating ICC profile")
+                self.createProfile_btn.setEnabled(True)
+                del self.matrix_process
+        
 class ColorOverlay(QDialog):
     def __init__(self, color_hex: str):
         super().__init__(None, Qt.FramelessWindowHint)

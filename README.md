@@ -8,9 +8,9 @@
 
 ## 📙 API Documentation
 
-<h1>⚠️ You are reading the docs for the <a href="https://github.com/Nfloc/SpectrumSense/tree/main">main</a> branch ⚠️</h1>
+<h1>⚠️ You are reading the docs for the <a href="https://github.com/Nfloc/spectrumSense/tree/main">main</a> branch ⚠️</h1>
 
-Please proceed to the [RELEASES](https://github.com/Nfloc/spectrumSense/releases) for the **stable** release of SpectrumSense.
+Please proceed to the [RELEASES](https://github.com/Nfloc/spectrumSense/releases) for the **stable** release of spectrumSense.
 
 ---
 

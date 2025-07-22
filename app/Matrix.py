@@ -1,4 +1,4 @@
-from app.config import *
+from config import *
 import numpy as np
 from colour import XYZ_to_Lab, XYZ_to_sRGB
 import datetime, subprocess, json
@@ -167,7 +167,9 @@ with open(TI3_OUTPUT,"w", newline="\n", encoding="ascii") as f:
 if not TI3_OUTPUT.exists():
     raise FileNotFoundError(f"TI3 file not found: {TI3_OUTPUT}")
 
-output_name = ICC_PROFILE_PATH.stem
+# Generate unique name using timestamp
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+output_name = f"monitor_profile_{timestamp}"
 
 colprof_cmd = [
     "colprof", "-v",
@@ -182,8 +184,9 @@ colprof_cmd = [
 print("🛠 Running colprof...")
 subprocess.run(colprof_cmd, check=True, cwd=TI3_OUTPUT.parent)
 
-# Move output .icc to models/
-generated_profile = TI3_OUTPUT.with_suffix(".icc")
-generated_profile.rename(ICC_PROFILE_PATH)
+# Move output .icc to models/ with unique name
+generated_profile = TI3_OUTPUT.with_suffix(".icm")
+new_profile_path = ICC_PROFILE_PATH.parent / f"{output_name}.icc"
+generated_profile.rename(new_profile_path)
 
-print(f"✅ ICC profile moved to: {ICC_PROFILE_PATH}")
+print(f"✅ ICC profile moved to: {new_profile_path}")

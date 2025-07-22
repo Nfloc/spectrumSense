@@ -27,3 +27,7 @@ MATRIX_PATH = APP_DIR / "Matrix.py"
 # Ensure required folders exist (optional safety)
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
+
+def file_exists(file_path: Path) -> bool:
+    """Check if a file exists."""
+    return file_path.is_file()
